@@ -11,6 +11,16 @@ import { registerUserTools } from "./tools/users.js";
 import { registerSearchTools } from "./tools/search.js";
 import { registerMetadataTools } from "./tools/metadata.js";
 import { registerWikiTools } from "./tools/wiki.js";
+import { registerVersionTools } from "./tools/versions.js";
+import { registerMembershipTools } from "./tools/memberships.js";
+import { registerRelationTools } from "./tools/relations.js";
+import { registerCategoryTools } from "./tools/categories.js";
+import { registerGroupTools } from "./tools/groups.js";
+import { registerRoleTools } from "./tools/roles.js";
+import { registerNewsTools } from "./tools/news.js";
+import { registerAttachmentTools } from "./tools/attachments.js";
+import { registerFileTools } from "./tools/files.js";
+import { registerQueryTools } from "./tools/queries.js";
 
 const config = loadConfig();
 const client = new RedmineClient(config);
@@ -28,6 +38,16 @@ registerUserTools(server, client);
 registerSearchTools(server, client);
 registerMetadataTools(server, client);
 registerWikiTools(server, client);
+registerVersionTools(server, client);
+registerMembershipTools(server, client);
+registerRelationTools(server, client);
+registerCategoryTools(server, client);
+registerGroupTools(server, client);
+registerRoleTools(server, client);
+registerNewsTools(server, client);
+registerAttachmentTools(server, client);
+registerFileTools(server, client);
+registerQueryTools(server, client);
 
 // Start server
 const transport = new StdioServerTransport();

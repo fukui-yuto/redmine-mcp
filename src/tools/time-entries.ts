@@ -67,4 +67,72 @@ export function registerTimeEntryTools(
       };
     }
   );
+
+  // --- Get time entry ---
+  server.tool(
+    "get_time_entry",
+    "Get details of a specific time entry.",
+    {
+      time_entry_id: z.number().describe("Time entry ID"),
+    },
+    async (args) => {
+      const res = await client.get(
+        `/time_entries/${args.time_entry_id}.json`
+      );
+      return {
+        content: [
+          { type: "text", text: JSON.stringify(res.data, null, 2) },
+        ],
+      };
+    }
+  );
+
+  // --- Update time entry ---
+  server.tool(
+    "update_time_entry",
+    "Update an existing time entry.",
+    {
+      time_entry_id: z.number().describe("Time entry ID"),
+      issue_id: z.number().optional().describe("New issue ID"),
+      project_id: z.string().optional().describe("New project ID"),
+      hours: z.number().optional().describe("New hours"),
+      activity_id: z.number().optional().describe("New activity ID"),
+      comments: z.string().optional().describe("New comment"),
+      spent_on: z.string().optional().describe("New date (YYYY-MM-DD)"),
+    },
+    async (args) => {
+      const { time_entry_id, ...fields } = args;
+      await client.put(`/time_entries/${time_entry_id}.json`, {
+        time_entry: fields,
+      });
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Time entry #${time_entry_id} updated successfully.`,
+          },
+        ],
+      };
+    }
+  );
+
+  // --- Delete time entry ---
+  server.tool(
+    "delete_time_entry",
+    "Delete a time entry. This action cannot be undone.",
+    {
+      time_entry_id: z.number().describe("Time entry ID to delete"),
+    },
+    async (args) => {
+      await client.del(`/time_entries/${args.time_entry_id}.json`);
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Time entry #${args.time_entry_id} deleted successfully.`,
+          },
+        ],
+      };
+    }
+  );
 }

@@ -66,4 +66,36 @@ export function registerMetadataTools(
       };
     }
   );
+
+  // --- Get document categories ---
+  server.tool(
+    "get_document_categories",
+    "Get all available document categories.",
+    {},
+    async () => {
+      const res = await client.get(
+        "/enumerations/document_categories.json"
+      );
+      return {
+        content: [
+          { type: "text", text: JSON.stringify(res.data, null, 2) },
+        ],
+      };
+    }
+  );
+
+  // --- Get custom fields ---
+  server.tool(
+    "get_custom_fields",
+    "List all custom fields defined in Redmine (requires admin privileges).",
+    {},
+    async () => {
+      const res = await client.get("/custom_fields.json");
+      return {
+        content: [
+          { type: "text", text: JSON.stringify(res.data, null, 2) },
+        ],
+      };
+    }
+  );
 }

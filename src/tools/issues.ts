@@ -140,4 +140,50 @@ export function registerIssueTools(server: McpServer, client: RedmineClient) {
       };
     }
   );
+
+  // --- Add watcher ---
+  server.tool(
+    "add_watcher",
+    "Add a user as a watcher to an issue.",
+    {
+      issue_id: z.number().describe("Issue ID"),
+      user_id: z.number().describe("User ID to add as watcher"),
+    },
+    async (args) => {
+      await client.post(`/issues/${args.issue_id}/watchers.json`, {
+        user_id: args.user_id,
+      });
+      return {
+        content: [
+          {
+            type: "text",
+            text: `User #${args.user_id} added as watcher to issue #${args.issue_id}.`,
+          },
+        ],
+      };
+    }
+  );
+
+  // --- Remove watcher ---
+  server.tool(
+    "remove_watcher",
+    "Remove a watcher from an issue.",
+    {
+      issue_id: z.number().describe("Issue ID"),
+      user_id: z.number().describe("User ID to remove from watchers"),
+    },
+    async (args) => {
+      await client.del(
+        `/issues/${args.issue_id}/watchers/${args.user_id}.json`
+      );
+      return {
+        content: [
+          {
+            type: "text",
+            text: `User #${args.user_id} removed from watchers of issue #${args.issue_id}.`,
+          },
+        ],
+      };
+    }
+  );
 }
