@@ -10,6 +10,7 @@ import { registerTimeEntryTools } from "./tools/time-entries.js";
 import { registerUserTools } from "./tools/users.js";
 import { registerSearchTools } from "./tools/search.js";
 import { registerMetadataTools } from "./tools/metadata.js";
+import { registerWikiTools } from "./tools/wiki.js";
 
 const config = loadConfig();
 const client = new RedmineClient(config);
@@ -26,6 +27,7 @@ registerTimeEntryTools(server, client);
 registerUserTools(server, client);
 registerSearchTools(server, client);
 registerMetadataTools(server, client);
+registerWikiTools(server, client);
 
 // Start server
 const transport = new StdioServerTransport();
